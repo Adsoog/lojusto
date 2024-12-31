@@ -1,0 +1,59 @@
+{% load static %}
+<nav class="fixed top-0 left-0 h-full w-48 bg-white shadow-md">
+  <!-- Encabezado -->
+  <header class="p-4 border-b border-gray-200">
+    <div class="flex items-center space-x-3">
+      <img src="{% static 'img/baseicons/justologo.jpg' %}" alt="Logo" class="h-16 w-16">
+      <div>
+        <h1 class="text-base font-bold text-gray-800">LO JUSTO</h1>
+        <span class="text-sm text-gray-500">ERP</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Menú -->
+  <div class="p-4">
+    <ul class="space-y-2">
+      <!-- General -->
+      <li>
+        <a hx-get="{% url 'index_general' %}" hx-target="#main" hx-swap="outerHTML" class="flex items-center space-x-3 text-gray-700 hover:bg-gray-100 p-2 rounded-md">
+          <i class="bx bxs-dashboard text-xl"></i>
+          <span>General</span>
+        </a>
+      </li>
+      <!-- Contabilidad -->
+      <li>
+        <a href="#" class="flex items-center space-x-3 text-gray-700 hover:bg-gray-100 p-2 rounded-md">
+          <i class="bx bx-home-alt text-xl"></i>
+          <span>Contabilidad</span>
+        </a>
+      </li>
+      <!-- Viaticos -->
+      <li>
+        <a href="/viaticos/lista" class="flex items-center space-x-3 text-gray-700 hover:bg-gray-100 p-2 rounded-md">
+          <i class="bx bx-heart text-xl"></i>
+          <span>Recursos</span>
+        </a>
+      </li>
+      <!-- Recursos -->
+      <li>
+        <a href="/viaticos/lista" class="flex items-center space-x-3 text-gray-700 hover:bg-gray-100 p-2 rounded-md">
+          <i class="bx bx-box text-xl"></i>
+          <span>Viaticos</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Parte inferior -->
+  <div class="absolute bottom-0 w-full p-4">
+    <ul class="space-y-2">
+      <li>
+        <a href="{% url 'logout_view' %}" class="flex items-center space-x-3 text-gray-700 hover:bg-gray-100 p-2 rounded-md">
+          <i class="bx bx-log-out text-xl"></i>
+          <span>Cerrar Sesión</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

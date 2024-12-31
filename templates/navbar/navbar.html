@@ -1,0 +1,71 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+    <div class="container-fluid">
+        <!-- Logo al lado del nombre -->
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'img/lojusto.png' %}" alt="Logo" style="height: 40px; margin-right: 10px;">
+        </a>
+
+        <!-- Título dinámico en la navbar -->
+        <div class="navbar-text ms-auto">
+            <!-- Aquí se mostrará el título que se define en cada plantilla -->
+            <h4>{% block navbar_title %}{% endblock %}</h4>
+        </div>
+
+        <!-- Botón de toggle para dispositivos móviles -->
+        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Enlaces de navegación con íconos -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto"> <!-- Usar ms-auto para mover a la derecha -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">
+                        <img src="{% static 'img/icons/tablero.svg' %}" alt="Tablero Icon" class="icon-svg">   
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">
+                        <img src="{% static 'img/icons/studio.svg' %}" alt="Studio Icon" class="icon-svg">
+                    </a>
+                </li>
+                
+                <!-- Condicional para mostrar el icono dependiendo del estado de autenticación -->
+                {% if user.is_authenticated %}
+                    <!-- Si el usuario está autenticado, mostrar el icono de cerrar sesión con estilo rojo -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout_view' %}">
+                            <i class="fas fa-sign-out-alt" style="color: #dc3545; font-size: 2.9rem; transition: transform 0.3s;"></i> <!-- Icono de cerrar sesión en rojo -->
+                        </a>
+                    </li>
+                {% else %}
+                    <!-- Si el usuario no está autenticado, mostrar el icono de iniciar sesión con estilo verde -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login_view' %}">
+                            <i class="fas fa-sign-in-alt" style="color: #28a745; font-size: 2.9rem; transition: transform 0.3s;"></i> <!-- Icono de iniciar sesión en verde -->
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Estilos adicionales para hover y efectos -->
+<style>
+    .nav-link i {
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .nav-link:hover i {
+        transform: scale(1.3); /* Efecto de aumento más grande al pasar el ratón */
+        color: #218838; /* Color verde más oscuro al hacer hover para login */
+    }
+
+    /* Cambiar color en hover para el icono de logout */
+    .nav-item a[href="{% url 'logout_view' %]"]:hover i {
+        transform: scale(1.3); /* Efecto de aumento para logout */
+        color: #c82333; /* Color rojo más oscuro al hacer hover para logout */
+    }
+</style>

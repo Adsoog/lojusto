@@ -1,0 +1,123 @@
+{% load widget_tweaks %}
+
+<!-- Contenedor Principal -->
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <form method="post" enctype="multipart/form-data" hx-post="{% url 'bill_form' bill.id %}" hx-target="#service-bills" hx-swap="outerHTML" class="space-y-6">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <!-- Grupo de Campos -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Campo 1 -->
+            <div>
+                <label for="{{ form.service_bill.id_for_label }}" class="block text-sm font-medium text-gray-700">Solicitud de Servicio:</label>
+                {% render_field form.service_bill class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %}
+                {% if form.service_bill.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.service_bill.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Campo 2 -->
+            <div>
+                <label for="{{ form.bill_image.id_for_label }}" class="block text-sm font-medium text-gray-700">Imagen de Factura:</label>
+                {% render_field form.bill_image class="mt-1 block w-full text-sm text-gray-900 border-gray-300 rounded-md file:py-2 file:px-4 file:border-gray-300 file:rounded-md file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" %}
+                {% if form.bill_image.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.bill_image.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Campo 3 -->
+            <div>
+                <label for="{{ form.bill_ruc.id_for_label }}" class="block text-sm font-medium text-gray-700">RUC:</label>
+                {% render_field form.bill_ruc class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %}
+                {% if form.bill_ruc.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.bill_ruc.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Campo 4 -->
+            <div>
+                <label for="{{ form.bill_emisor.id_for_label }}" class="block text-sm font-medium text-gray-700">Emisor:</label>
+                {% render_field form.bill_emisor class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %}
+                {% if form.bill_emisor.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.bill_emisor.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Campo 5 -->
+            <div>
+                <label for="{{ form.bill_number.id_for_label }}" class="block text-sm font-medium text-gray-700">Número de comprobante:</label>
+                {% render_field form.bill_number class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %}
+                {% if form.bill_number.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.bill_number.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Campo 6 -->
+            <div>
+                <label for="{{ form.bill_date.id_for_label }}" class="block text-sm font-medium text-gray-700">Fecha:</label>
+                {% render_field form.bill_date class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %}
+                {% if form.bill_date.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.bill_date.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Campo 7 -->
+            <div>
+                <label for="{{ form.bill_total.id_for_label }}" class="block text-sm font-medium text-gray-700">Total:</label>
+                {% render_field form.bill_total class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %}
+                {% if form.bill_total.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.bill_total.errors }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.bill_class.id_for_label }}" class="block text-sm font-medium text-gray-700">Clase:</label>
+                {% render_field form.bill_class class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %}
+                {% if form.bill_class.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.bill_class.errors }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.bill_type.id_for_label }}" class="block text-sm font-medium text-gray-700">Tipo:</label>
+                {% render_field form.bill_type class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %}
+                {% if form.bill_type.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.bill_type.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Campo 8 -->
+            <div>
+                <label for="{{ form.bill_details.id_for_label }}" class="block text-sm font-medium text-gray-700">Detalles:</label>
+                {% render_field form.bill_details class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %}
+                {% if form.bill_details.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.bill_details.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Campo 9 -->
+            <div>
+                <label for="{{ form.is_active.id_for_label }}" class="block text-sm font-medium text-gray-700">Estado:</label>
+                {% render_field form.is_active class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %}
+                {% if form.is_active.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.is_active.errors }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Campo 10 -->
+            <div>
+                <label for="{{ form.is_found.id_for_label }}" class="block text-sm font-medium text-gray-700">Habido:</label>
+                {% render_field form.is_found class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %}
+                {% if form.is_found.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.is_found.errors }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Botón de Envío -->
+        <div class="flex justify-end">
+            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition duration-300">Guardar</button>
+        </div>
+    </form>
+</div>

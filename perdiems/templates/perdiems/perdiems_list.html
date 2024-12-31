@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div id="perdiem-list" class="container mx-auto px-4">
+        <!-- Título dinámico -->
+        <div class="flex flex-wrap -mx-4">
+            <div class="w-full px-4">
+                <h2 class="text-2xl font-bold mb-4">
+                    {% if user.employee.area.id == 1 %}
+                        Contabilidad
+                    {% else %}
+                        {{ user.username }}
+                    {% endif %}
+                </h2>
+            </div>
+        </div>
+        
+        <div class="flex flex-wrap -mx-4">
+            <div class="w-full px-4">
+                {% if perdiems %}
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white border border-gray-200 shadow-sm rounded-lg">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="py-2 px-4 border-b">Viático</th>
+                                    <th class="py-2 px-4 border-b">OTI</th>
+                                    <th class="py-2 px-4 border-b">Estado</th>
+                                    <th class="py-2 px-4 border-b">Total (USD)</th>
+                                    <th class="py-2 px-4 border-b">Abonado (S/)</th>
+                                    <th class="py-2 px-4 border-b">Rendido (S/)</th>
+                                    <th class="py-2 px-4 border-b">Pendiente (S/)</th>
+                                    <th class="py-2 px-4 border-b">Liquidación</th>
+                                    <th class="py-2 px-4 border-b">Detalles</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for perdiem in perdiems %}
+                                    <tr class="hover:bg-gray-100">
+                                        <td class="py-2 px-4 border-b">{{ perdiem.details|truncatewords:20 }}</td>
+                                        <td class="py-2 px-4 border-b">{{ perdiem.oti }}</td>
+                                        <td class="py-2 px-4 border-b text-center">
+                                            {% if perdiem.accounting_signature %}
+                                                <span class="text-green-500 font-bold">Abonada</span>
+                                            {% elif perdiem.supervisor_signature %}
+                                                <span class="text-blue-500 font-bold">Solicitud Aprobada</span>
+                                            {% elif perdiem.applicant_signature %}
+                                                <span class="text-yellow-500 font-bold">Nueva Solicitud</span>
+                                            {% else %}
+                                                <span class="text-red-500 font-bold">Sin Estado</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="py-2 px-4 border-b text-center text-blue-500 font-bold">{{ perdiem.total_expense_dollars }}</td>
+                                        <td class="py-2 px-4 border-b text-center text-green-500 font-bold">{{ perdiem.total_expense }}</td>
+                                        <td class="py-2 px-4 border-b text-center text-yellow-500 font-bold">{{ perdiem.total_bills|default:0.00 }}</td>
+                                        <td class="py-2 px-4 border-b text-center text-red-500 font-bold">{{ perdiem.total_restante|default:0.00 }}</td>
+                                        <td class="py-2 px-4 border-b text-center">
+                                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm" 
+                                                hx-get="{% url 'perdiem_detail' perdiem.id %}" 
+                                                hx-target="#perdiem-list" 
+                                                hx-swap="outerHTML"
+                                                title="Ver detalles completos de la solicitud">
+                                            <i class="fas fa-eye"></i> Ver liquidacion
+                                            </button>
+                                        </td>
+                                        <td class="py-2 px-4 border-b text-center">
+                                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm" 
+                                                hx-get="{% url 'perdiem_detail' perdiem.id %}" 
+                                                hx-target="#perdiem-list" 
+                                                hx-swap="outerHTML"
+                                                title="Ver detalles completos de la solicitud">
+                                            <i class="fas fa-eye"></i> Ver detalle
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative text-center">
+                        <i class="fas fa-exclamation-triangle"></i> No hay solicitudes de viáticos hoy.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

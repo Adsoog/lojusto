@@ -1,0 +1,103 @@
+<div id="general" class="container px-4 py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    
+    <!-- Áreas -->
+    <div id="area" class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Áreas</h2>
+        <ul>
+            {% for area in areas %}
+                <li class="mb-2">
+                    <strong>{{ area.name }}</strong><br>
+                    {{ area.description }}
+                </li>
+            {% empty %}
+                <li>No hay áreas disponibles.</li>
+            {% endfor %}
+        </ul>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                hx-get="{% url 'create_area' %}" 
+                hx-target="#area" 
+                hx-swap="outerHTML">
+            Crear area
+        </button>
+    </div>
+    
+    <!-- Áreas -->
+    <div id="lab" class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Laboratorio</h2>
+        <ul>
+            {% for lab in laboratories %}
+                <li class="mb-2">
+                    <strong>{{ lab.name }}</strong><br>
+                    {{ lab.description }}
+                </li>
+            {% empty %}
+                <li>No hay áreas disponibles.</li>
+            {% endfor %}
+        </ul>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                hx-get="{% url 'create_lab' %}" 
+                hx-target="#lab" 
+                hx-swap="outerHTML">
+            Crear laboratorio
+        </button>
+    </div>
+    
+    <!-- Vehículos -->
+    <div id="vehicle" class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Vehículos</h2>
+        <ul>
+            {% for vehicle in vehicles %}
+                <li class="mb-2">
+                    <strong>{{ vehicle.name }}</strong><br>
+                    Placa: {{ vehicle.plate }}
+                </li>
+            {% empty %}
+                <li>No hay vehículos disponibles.</li>
+            {% endfor %}
+        </ul>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                hx-get="{% url 'create_vehicle' %}" 
+                hx-target="#vehicle" 
+                hx-swap="outerHTML">
+            Crear vehiculo
+        </button>
+    </div>
+    
+    <!-- Rutas -->
+    <div id="route" class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Rutas</h2>
+        <ul>
+            {% for route in routes %}
+                <li class="mb-2">
+                    Inicio: <strong>{{ route.start_route }}</strong><br>
+                    Fin: {{ route.end_route }}
+                </li>
+            {% empty %}
+                <li>No hay rutas disponibles.</li>
+            {% endfor %}
+        </ul>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                hx-get="{% url 'create_route' %}" 
+                hx-target="#route" 
+                hx-swap="outerHTML">
+            Crear ruta
+        </button>
+    </div>
+    
+    <!-- Tipo de Cambio Diario -->
+    <div id="exchange" class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Tipo de Cambio Diario</h2>
+        <ul>
+            {% for rate in exchange_rates %}
+                <li class="mb-2">
+                    <strong>{{ rate.date }}</strong><br>
+                    Compra: {{ rate.purchase_rate }}<br>
+                    Venta: {{ rate.sale_rate }}
+                </li>
+            {% empty %}
+                <li>No hay tipos de cambio disponibles.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+</div>

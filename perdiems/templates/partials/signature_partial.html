@@ -1,0 +1,56 @@
+<tr id="firmas-row">
+    <td colspan="3">
+        <div class="flex flex-wrap py-3 -mx-2">
+            <!-- Solicitante -->
+            <div class="w-full md:w-1/3 px-2 text-center">
+                <div class="border p-4 rounded-lg shadow-sm mb-3">
+                    <strong class="block mb-2">Solicitante</strong>
+                    {% if perdiem.applicant_signature %}
+                        <img src="{{ perdiem.applicant_signature.url }}" alt="Firma del Solicitante" class="mx-auto max-w-xs max-h-24">
+                        <span class="text-green-500">Firmado</span>
+                    {% else %}
+                        <i class="fas fa-times-circle text-red-500 text-2xl"></i> <span class="text-red-500">No Firmado</span>
+                    {% endif %}
+                    <br>
+                    <button hx-get="{% url 'toggle_signature' 'applicant' perdiem.id %}" hx-target="#firmas-row" hx-swap="outerHTML" class="border border-blue-500 text-blue-500 mt-2 px-4 py-2 rounded text-sm transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white">
+                        <i class="fas fa-pencil-alt"></i> Firmar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Supervisor -->
+            <div class="w-full md:w-1/3 px-2 text-center">
+                <div class="border p-4 rounded-lg shadow-sm mb-3">
+                    <strong class="block mb-2">Supervisor</strong>
+                    {% if perdiem.supervisor_signature %}
+                        <img src="{{ perdiem.supervisor_signature.url }}" alt="Firma del Supervisor" class="mx-auto max-w-xs max-h-24">
+                        <span class="text-green-500">Firmado</span>
+                    {% else %}
+                        <i class="fas fa-times-circle text-red-500 text-2xl"></i> <span class="text-red-500">No Firmado</span>
+                    {% endif %}
+                    <br>
+                    <button hx-get="{% url 'toggle_signature' 'supervisor' perdiem.id %}" hx-target="#firmas-row" hx-swap="outerHTML" class="border border-blue-500 text-blue-500 mt-2 px-4 py-2 rounded text-sm transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white">
+                        <i class="fas fa-pencil-alt"></i> Firmar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contabilidad -->
+            <div class="w-full md:w-1/3 px-2 text-center">
+                <div class="border p-4 rounded-lg shadow-sm mb-3">
+                    <strong class="block mb-2">Contabilidad</strong>
+                    {% if perdiem.accounting_signature %}
+                        <img src="{{ perdiem.accounting_signature.url }}" alt="Firma de Contabilidad" class="mx-auto max-w-xs max-h-24">
+                        <span class="text-green-500">Firmado</span>
+                    {% else %}
+                        <i class="fas fa-times-circle text-red-500 text-2xl"></i> <span class="text-red-500">No Firmado</span>
+                    {% endif %}
+                    <br>
+                    <button hx-get="{% url 'toggle_signature' 'accounting' perdiem.id %}" hx-target="#firmas-row" hx-swap="outerHTML" class="border border-blue-500 text-blue-500 mt-2 px-4 py-2 rounded text-sm transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white">
+                        <i class="fas fa-pencil-alt"></i> Firmar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </td>
+</tr>

@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Mi ERP{% endblock %}</title>
+  
+  <!-- Boxicons y Google Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css'>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap'>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- Tus Hojas de Estilo Personalizadas -->
+  <link href="{% static 'css/base.css' %}" rel="stylesheet"> <!-- Base -->
+  <link href="{% static 'css/maincontent.css' %}" rel="stylesheet"> <!-- Main Content -->  
+
+  <!-- HTMX -->
+  <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.js" integrity="sha384-oeUn82QNXPuVkGCkcrInrS1twIxKhkZiFfr2TdiuObZ3n3yIeMiqcRzkIcguaof1" crossorigin="anonymous"></script>
+  
+  {% block extra_head %}
+  {% endblock %}
+</head>
+<body class="bg-gray-100 font-sans">
+  <!-- Contenedor General -->
+  <div class="flex min-h-screen">
+    <!-- Barra Lateral -->
+    <aside class="w-48 bg-white shadow-md">
+      {% include 'sidebar/sidebar.html' %}
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main id="main" class="flex-1 p-4">
+      {% block content %}
+      {% endblock %}
+    </main>
+  </div>
+
+  <!-- Scripts JS -->
+  <script src="{% static 'js/base.js' %}"></script>
+  <script>
+    document.body.addEventListener('htmx:configRequest', (event) => {
+      event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    });
+  </script>
+
+  {% block extra_scripts %}
+  {% endblock %}
+</body>
+
+</html>

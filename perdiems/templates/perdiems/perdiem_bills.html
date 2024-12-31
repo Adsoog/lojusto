@@ -1,0 +1,66 @@
+<div class="p-4 bg-gray-100 rounded-lg" id="service-bills">
+    {% if bills %}
+        {% for bill in bills %}
+            <!-- Contenedor de la factura -->
+            <div id="bill-{{ bill.id }}" class="mb-4 p-4 bg-white rounded-lg shadow">
+                <p class="text-lg font-bold text-gray-700">Factura ID: {{ bill.id }}</p>
+                <div class="mb-3">
+                    <div class="flex justify-between">
+                        <div class="font-semibold text-blue-500">{{ bill.bill_number }}</div>
+                        <div class="font-semibold text-gray-500">{{ bill.bill_emisor }}</div>
+                    </div>
+                    <div class="flex justify-between mb-2">
+                        <div><strong>RUC:</strong> {{ bill.bill_ruc }}</div>
+                        <div><strong>Fecha:</strong> {{ bill.bill_date }}</div>
+                    </div>
+                    <div class="flex justify-between mb-2">
+                        <div><strong>Estado:</strong> {{ bill.is_active }}</div>
+                        <div><strong>Habido:</strong> {{ bill.is_found }}</div>
+                    </div>
+                    <div class="flex justify-between mb-2">
+                        <div><strong>Total:</strong> S/ {{ bill.bill_total }}</div>
+                        <div><strong>Detalles:</strong> {{ bill.bill_details }}</div>
+                    </div>
+                </div>
+
+                <!-- Contenedor de la imagen y el botón de editar -->
+                <div class="flex justify-between items-center mt-4">
+                    {% if bill.bill_image %}
+                        <!-- Imagen miniatura -->
+                        <img src="{{ bill.bill_image.url }}" alt="Factura Imagen" 
+                             class="h-24 w-auto rounded-lg cursor-pointer" 
+                             data-bs-toggle="modal" 
+                             data-bs-target="#imageModal{{ forloop.counter }}">
+
+                        <!-- Modal de la imagen -->
+                        <div class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center hidden" id="imageModal{{ forloop.counter }}">
+                            <div class="bg-white rounded-lg shadow-lg max-w-lg w-full p-4">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h5 class="text-lg font-bold">Factura {{ bill.bill_number }}</h5>
+                                    <button class="text-gray-500 hover:text-gray-700" 
+                                            onclick="document.getElementById('imageModal{{ forloop.counter }}').classList.add('hidden');">
+                                        &times;
+                                    </button>
+                                </div>
+                                <img src="{{ bill.bill_image.url }}" alt="Factura Imagen" class="w-full rounded-lg">
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- Botón de editar -->
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            hx-get="{% url 'bill_form' bill.id %}" 
+                            hx-target="#bill-{{ bill.id }}" 
+                            hx-swap="outerHTML">
+                        Editar Factura
+                    </button>
+                </div>
+            </div>
+            <!-- Separador -->
+            <div class="border-t border-gray-200 my-4"></div>
+        {% endfor %}
+    {% else %}
+        <p class="text-gray-500">No hay facturas asociadas a este servicio.</p>
+    {% endif %}
+</div>
+    

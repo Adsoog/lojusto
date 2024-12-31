@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div id="perdiem-extra" class="w-full md:w-5/12 px-4">
+        <form method="post" enctype="multipart/form-data" 
+              hx-post="{% url 'create_request_service' %}" 
+              hx-target="#perdiem-list" 
+              hx-swap="innerHTML" 
+              class="bg-white shadow-md rounded-lg p-6">
+            {% csrf_token %}
+            
+            <!-- Título del formulario -->
+            <h3 class="mb-6 text-xl font-semibold">Solicitud de Viáticos</h3>
+
+            <!-- Formulario principal de la solicitud -->
+            <div class="mb-6">
+                <!-- Campos del formulario principal -->
+                <div class="flex flex-wrap -mx-2">
+                    <div class="w-full md:w-1/2 px-2 mb-4">
+                        <div class="mb-4">
+                            <label for="{{ request_service_form.area.id_for_label }}" class="block text-gray-700">Área</label>
+                            {{ request_service_form.area|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                            {% if request_service_form.area.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ request_service_form.area.errors }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 px-2 mb-4">
+                        <div class="mb-4">
+                            <label for="{{ request_service_form.laboratory.id_for_label }}" class="block text-gray-700">Laboratorio</label>
+                            {{ request_service_form.laboratory|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                            {% if request_service_form.laboratory.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ request_service_form.laboratory.errors }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="{{ request_service_form.oti.id_for_label }}" class="block text-gray-700">OTI</label>
+                    {{ request_service_form.oti|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                    {% if request_service_form.oti.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ request_service_form.oti.errors }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="flex flex-wrap -mx-2">
+                    <div class="w-full md:w-1/2 px-2 mb-4">
+                        <div class="mb-4">
+                            <label for="{{ request_service_form.start_date.id_for_label }}" class="block text-gray-700">Fecha de Inicio</label>
+                            {{ request_service_form.start_date|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                            {% if request_service_form.start_date.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ request_service_form.start_date.errors }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 px-2 mb-4">
+                        <div class="mb-4">
+                            <label for="{{ request_service_form.end_date.id_for_label }}" class="block text-gray-700">Fecha de Fin</label>
+                            {{ request_service_form.end_date|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                            {% if request_service_form.end_date.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ request_service_form.end_date.errors }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="{{ request_service_form.days.id_for_label }}" class="block text-gray-700">Días</label>
+                    {{ request_service_form.days|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                    {% if request_service_form.days.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ request_service_form.days.errors }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-4">
+                    <label for="{{ request_service_form.for_interested.id_for_label }}" class="block text-gray-700">Para Interesado</label>
+                    {{ request_service_form.for_interested|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                    {% if request_service_form.for_interested.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ request_service_form.for_interested.errors }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-4">
+                    <label for="{{ request_service_form.from_interested.id_for_label }}" class="block text-gray-700">De Interesado</label>
+                    {{ request_service_form.from_interested|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                    {% if request_service_form.from_interested.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ request_service_form.from_interested.errors }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-4">
+                    <label for="{{ request_service_form.persons.id_for_label }}" class="block text-gray-700">Personas</label>
+                    {{ request_service_form.persons|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                    {% if request_service_form.persons.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ request_service_form.persons.errors }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-4">
+                    <label for="{{ request_service_form.details.id_for_label }}" class="block text-gray-700">Detalles</label>
+                    {{ request_service_form.details|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                    {% if request_service_form.details.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ request_service_form.details.errors }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="flex flex-wrap -mx-2">
+                    <div class="w-full md:w-1/2 px-2 mb-4">
+                        <div class="mb-4">
+                            <label for="{{ request_service_form.total_bills.id_for_label }}" class="block text-gray-700">Total Facturas</label>
+                            {{ request_service_form.total_bills|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                            {% if request_service_form.total_bills.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ request_service_form.total_bills.errors }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 px-2 mb-4">
+                        <div class="mb-4">
+                            <label for="{{ request_service_form.total_expense.id_for_label }}" class="block text-gray-700">Total Gastos</label>
+                            {{ request_service_form.total_expense|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                            {% if request_service_form.total_expense.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ request_service_form.total_expense.errors }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formset de los ítems de la solicitud -->
+            <h3 class="mb-4 text-xl font-semibold">Ítems de Solicitud</h3>
+            {{ service_items_formset.management_form }}
+            
+            <div id="service-items-container">
+                {% for form in service_items_formset %}
+                    <div class="flex flex-wrap -mx-2 mb-4">
+                        <div class="w-full md:w-1/2 px-2 mb-4">
+                            <div class="mb-4">
+                                <label for="{{ form.items.id_for_label }}" class="block text-gray-700">Ítem</label>
+                                {{ form.items|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                                {% if form.items.errors %}
+                                    <p class="text-red-500 text-sm mt-1">{{ form.items.errors }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="w-full md:w-1/2 px-2 mb-4">
+                            <div class="mb-4">
+                                <label for="{{ form.price.id_for_label }}" class="block text-gray-700">Precio</label>
+                                {{ form.price|add_class:"mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                                {% if form.price.errors %}
+                                    <p class="text-red-500 text-sm mt-1">{{ form.price.errors }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Botón para agregar un nuevo ítem -->
+            <button type="button" id="add-item" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded mb-6">
+                Agregar Ítem
+            </button>
+            
+            <!-- Botón para enviar el formulario -->
+            <div class="text-right">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Enviar Solicitud
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

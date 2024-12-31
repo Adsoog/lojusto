@@ -1,0 +1,8 @@
+<div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold mb-4">Crear Vehiculo</h2>
+    <form method="post" hx-post="{% url 'create_vehicle' %}" hx-target="#general" hx-swap="outerHTML" class="space-y-6">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Guardar</button>
+    </form>
+</div>

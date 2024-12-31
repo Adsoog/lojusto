@@ -1,0 +1,195 @@
+<div id="perdiem-report" class="w-full mx-auto rounded-lg shadow-lg p-4">
+    <!-- Fila con las dos columnas (60% - 40%) -->
+    <div class="flex flex-wrap -mx-2">
+        <!-- Columna de 60% para el informe -->
+        <div class="w-full md:w-7/12 px-2">
+            <table class="min-w-full border-collapse">
+                <thead>
+                    <tr>
+                        <!-- Título que abarca las 3 columnas -->
+                        <th colspan="3" class="text-center bg-gray-800 text-white rounded-t-lg py-3">
+                            <div class="flex justify-between items-center">
+                                <!-- Flechita para atrás - Ícono a la izquierda -->
+                                <button class="bg-blue-500 text-white text-sm px-2 py-1 rounded" 
+                                        hx-get="{% url 'perdiems_list' %}" 
+                                        hx-target="body" 
+                                        hx-swap="outerHTML"
+                                        title="Regresar">
+                                    <i class="fas fa-arrow-left"></i>
+                                </button>
+                    
+                                <!-- Título centrado -->
+                                <span class="mx-auto text-lg font-semibold">Solicitud de Viático: {{ perdiem.id }}</span>
+                                
+                                <!-- Icono de Excel - Ícono a la derecha -->
+                                <button class="bg-green-500 text-white text-sm px-2 py-1 rounded" 
+                                        title="Generar Excel" id="exportBtn">
+                                    <i class="fas fa-file-excel"></i>
+                                </button>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Detalles Generales en una fila con 3 columnas -->
+                    <tr class="border">
+                        <td class="p-2"><strong>Área:</strong> {{ perdiem.area }}</td>
+                        <td class="p-2"><strong>Laboratorio:</strong> {{ perdiem.laboratory }}</td>
+                        <td class="p-2"><strong>OTI:</strong> {{ perdiem.oti }}</td>
+                    </tr>
+                    <!-- Fechas -->
+                    <tr class="border">
+                        <td class="p-2"><strong>Solicitud:</strong> {{ perdiem.requested_date }}</td>
+                        <td class="p-2"><strong>Inicio del Viaje:</strong> {{ perdiem.start_date }}</td>
+                        <td class="p-2"><strong>Fin del Viaje:</strong> {{ perdiem.end_date }}</td>
+                    </tr>
+                    <!-- Información General -->
+                    <tr class="border">
+                        <td class="p-2"><strong>Solicitado por: </strong>{{ perdiem.from_interested }}</td>
+                        <td class="p-2"><strong>Dirigido a: </strong>{{ perdiem.for_interested }}</td>
+                        <td class="p-2"><strong>Dias:</strong> {{ perdiem.days }}</td>
+                    </tr>
+                    <tr class="border">
+                        <td colspan="3" class="p-2">
+                            <div class="flex flex-wrap -mx-2">
+                                <!-- Columna para "Trabajos a realizar" -->
+                                <div class="w-full md:w-1/2 px-2">
+                                    <h6 class="font-bold text-blue-500">Trabajos a realizar:</h6>
+                                    <p>{{ perdiem.details }}</p>
+                                </div>
+                    
+                                <!-- Columna para "Personas que viajarán" -->
+                                <div class="w-full md:w-1/2 px-2">
+                                    <table class="min-w-full border-collapse">
+                                        <thead>
+                                            <tr>
+                                                <th class="border p-2">#</th>
+                                                <th class="border p-2">Personas que viajarán:</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for person in perdiem.persons.all %}
+                                            <tr class="border">
+                                                <td class="p-2">{{ forloop.counter }}</td>
+                                                <td class="p-2">{{ person }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Estimado de Gastos -->
+                    <tr class="border">
+                        <td colspan="3" class="p-2">
+                            <table class="min-w-full border-collapse" id="expenses">
+                                <thead>
+                                    <tr>
+                                        <th class="border p-2">Detalles de Gastos</th>
+                                        <th class="border p-2">Precio Unitario</th>
+                                        <th class="border p-2">Cantidad</th>
+                                        <th class="border p-2">Total en Soles</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for service_item in perdiem.service_items.all %}
+                                    <tr class="border">
+                                        <td class="p-2">{{ service_item.items }}</td>
+                                        <td class="p-2">S/ {{ service_item.price }}</td>
+                                        <td class="p-2">{{ service_item.amount }}</td>
+                                        <td class="p-2">S/ {{ service_item.total_price }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="2" class="text-right p-2"><strong>Total en Dólares:</strong></td>
+                                        <td class="p-2"><strong>$ {{ perdiem.total_expense_dollars }}</strong></td>
+                                        <td class="p-2"><strong>S/ {{ perdiem.total_expense }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-right p-2"><strong>Total rendido:</strong></td>
+                                        <td class="p-2"><strong>S/ {{ total_rendido }}</strong></td>
+                                        <td class="p-2"><strong>S/ {{ total_restante }}</strong></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr id="firmas-row" class="border">
+                        <td colspan="3" class="p-2">
+                            <div class="flex flex-wrap py-3 -mx-2">
+                                <!-- Solicitante -->
+                                <div class="w-full md:w-1/3 px-2 text-center">
+                                    <div class="border p-4 rounded-lg shadow-sm mb-3">
+                                        <strong class="block mb-2">Solicitante</strong>
+                                        {% if perdiem.applicant_signature %}
+                                            <img src="{{ perdiem.applicant_signature.url }}" alt="Firma del Solicitante" class="mx-auto max-w-xs max-h-24">
+                                            <span class="text-green-500">Firmado</span>
+                                        {% else %}
+                                            <i class="fas fa-times-circle text-red-500 text-2xl"></i> <span class="text-red-500">No Firmado</span>
+                                        {% endif %}
+                                        <br>
+                                        <!-- Ya no es necesario el botón de firma para el solicitante -->
+                                        <!-- Botón comentado ya que la firma se asigna automáticamente -->
+                                        <!-- <button hx-get="{% url 'toggle_signature' 'applicant' perdiem.id %}" hx-target="#firmas-row" hx-swap="outerHTML" class="border border-blue-500 text-blue-500 mt-2 px-4 py-2 rounded text-sm transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white">
+                                            <i class="fas fa-pencil-alt"></i> Firmar
+                                        </button> -->
+                                    </div>
+                                </div>
+                    
+                                <!-- Supervisor -->
+                                <div class="w-full md:w-1/3 px-2 text-center">
+                                    <div class="border p-4 rounded-lg shadow-sm mb-3">
+                                        <strong class="block mb-2">Supervisor</strong>
+                                        {% if perdiem.supervisor_signature %}
+                                            <img src="{{ perdiem.supervisor_signature.url }}" alt="Firma del Supervisor" class="mx-auto max-w-xs max-h-24">
+                                            <span class="text-green-500">Firmado</span>
+                                        {% else %}
+                                            <i class="fas fa-times-circle text-red-500 text-2xl"></i> <span class="text-red-500">No Firmado</span>
+                                        {% endif %}
+                                        <br>
+                                        <!-- Botón para firmar supervisor -->
+                                        <button hx-get="{% url 'toggle_signature' 'supervisor' perdiem.id %}" hx-target="#firmas-row" hx-swap="outerHTML" class="border border-blue-500 text-blue-500 mt-2 px-4 py-2 rounded text-sm transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white">
+                                            <i class="fas fa-pencil-alt"></i> Firmar
+                                        </button>
+                                    </div>
+                                </div>
+                    
+                                <!-- Contabilidad -->
+                                <div class="w-full md:w-1/3 px-2 text-center">
+                                    <div class="border p-4 rounded-lg shadow-sm mb-3">
+                                        <strong class="block mb-2">Contabilidad</strong>
+                                        {% if perdiem.accounting_signature %}
+                                            <img src="{{ perdiem.accounting_signature.url }}" alt="Firma de Contabilidad" class="mx-auto max-w-xs max-h-24">
+                                            <span class="text-green-500">Firmado</span>
+                                        {% else %}
+                                            <i class="fas fa-times-circle text-red-500 text-2xl"></i> <span class="text-red-500">No Firmado</span>
+                                        {% endif %}
+                                        <br>
+                                        <!-- Botón para firmar contabilidad -->
+                                        <button hx-get="{% url 'toggle_signature' 'accounting' perdiem.id %}" hx-target="#firmas-row" hx-swap="outerHTML" class="border border-blue-500 text-blue-500 mt-2 px-4 py-2 rounded text-sm transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white">
+                                            <i class="fas fa-pencil-alt"></i> Firmar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Columna de 40% para contenido adicional -->
+        <div class="w-full md:w-5/12 px-2 mt-4 md:mt-0">
+            <div class="bg-gray-100 border border-gray-300 shadow-sm p-4 rounded">
+                {% include 'perdiems/perdiem_bills.html' %}
+            </div>
+        </div>
+    </div>
+</div>
