@@ -23,7 +23,7 @@
       </li>
       <!-- Contabilidad -->
       <li>
-        <a href="#" class="flex items-center space-x-3 text-gray-700 hover:bg-gray-100 p-2 rounded-md">
+        <a href="{% url 'index_accounting' %}" class="flex items-center space-x-3 text-gray-700 hover:bg-gray-100 p-2 rounded-md">
           <i class="bx bx-home-alt text-xl"></i>
           <span>Contabilidad</span>
         </a>
@@ -48,12 +48,23 @@
   <!-- Parte inferior -->
   <div class="absolute bottom-0 w-full p-4">
     <ul class="space-y-2">
-      <li>
-        <a href="{% url 'logout_view' %}" class="flex items-center space-x-3 text-gray-700 hover:bg-gray-100 p-2 rounded-md">
-          <i class="bx bx-log-out text-xl"></i>
-          <span>Cerrar Sesión</span>
-        </a>
-      </li>
+      {% if user.is_authenticated %}
+        <!-- Mostrar Logout si el usuario está autenticado -->
+        <li>
+          <a href="{% url 'logout_view' %}" class="flex items-center space-x-3 text-gray-700 hover:bg-gray-100 p-2 rounded-md">
+            <i class="bx bx-log-out text-xl"></i>
+            <span>Cerrar Sesión</span>
+          </a>
+        </li>
+      {% else %}
+        <!-- Mostrar Login si el usuario no está autenticado -->
+        <li>
+          <a href="{% url 'login_view' %}" class="flex items-center space-x-3 text-gray-700 hover:bg-gray-100 p-2 rounded-md">
+            <i class="bx bx-log-in text-xl"></i>
+            <span>Iniciar Sesión</span>
+          </a>
+        </li>
+      {% endif %}
     </ul>
   </div>
 </nav>

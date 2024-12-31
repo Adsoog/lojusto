@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'widget_tweaks',
     'django_extensions',
+    'accounting',
 ]
 
 MIDDLEWARE = [
@@ -131,6 +132,9 @@ USE_TZ = True
 LOGIN_URL = 'login_view'
 
 LOGIN_REDIRECT_URL = 'home'
+
+LOGOUT_REDIRECT_URL = 'home'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/

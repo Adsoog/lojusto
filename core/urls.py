@@ -12,6 +12,7 @@ urlpatterns = [
     path('',          include('home.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
     path("general/",  include('general.urls')),
+    path('contabilidad/', include('accounting.urls')),
 ]
 
 if settings.DEBUG:

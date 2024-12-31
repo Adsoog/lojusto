@@ -41,6 +41,7 @@ class RequestService(models.Model):
     total_bills = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     total_expense = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     total_expense_dollars = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    state = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
 
